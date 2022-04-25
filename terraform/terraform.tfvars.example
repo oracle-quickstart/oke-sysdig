@@ -14,13 +14,15 @@ compartment_ocid = "ocid1.compartment...."
 # region
 region = "us-ashburn-1"
 
-# Sysdig
+# Sysdig 
+## For access key please go to sysdig secure UI > Settings > Agent Installation
+## For endpoints please check https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/#saas-regions-and-ip-ranges
 sysdig_access_key = ""
 sysdig_settings_collector = "" # i.e. "ingest-us2.app.sysdig.com"
 sysdig_settings_collector_port = "6443"
-sysdig_node_analyzer_api_endpoint = "" # i.e. "us2.app.sysdig.com"
+sysdig_node_analyzer_api_endpoint = "" # i.e. "us2.app.sysdig.com" (sysdig secure endpoint)
 
-# Snyk
+# Snyk (in case of sysdig+snyk joint installations)
 snyk_integration_id     = "" # Copy from https://app.snyk.io/org/YOUR-ORGANIZATION-NAME/manage/integrations/kubernetes
 snyk_deploy_goof_sample = false
 
