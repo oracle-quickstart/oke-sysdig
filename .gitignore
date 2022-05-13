@@ -3,6 +3,7 @@
 **/.DS_Store
 *.tgz
 *.zip
+.vscode/
 
 # Terraform ###
 ## Local .terraform directories
