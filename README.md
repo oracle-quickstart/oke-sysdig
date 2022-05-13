@@ -16,6 +16,9 @@ There are three ways to deploy this in your OCI infrastructure
 - Upload the module to the Oracle Resource Manager.
 
 ### Using the magic button
+
+![](./images/magic-button-screenshot.png)
+
 1. Click the button [![Deploy to Oracle Cloud][magic_button]][magic_sysdig_stack] to go to the OCI deployment wizard.
 2. Provide configuration parameters and credentials explained in the requirements section above.
 3. Follow the wizard isntructions and run **Plan** check the stack.
