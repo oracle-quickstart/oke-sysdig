@@ -1,4 +1,4 @@
-# ![Sysdig Logo](./images/sysdig-logo-white-text.svg#gh-light-mode-only)![Sysdig Logo - Dark Mode](./images/sysdig-logo.svg#gh-dark-mode-only)      [![Deploy to Oracle Cloud][magic_button]][magic_sysdig_stack]
+# ![Sysdig Logo](./images/sysdig-logo.svg#gh-light-mode-only)![Sysdig Logo - Dark Mode](./images/sysdig-logo-white-text.svg#gh-dark-mode-only)      [![Deploy to Oracle Cloud][magic_button]][magic_sysdig_stack]
 
 Terraform module that deploys the Sysdig Secure Agents in Oracle Kubernetes Engine (OKE) Cluster.
 
