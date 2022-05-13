@@ -97,13 +97,15 @@ data "kubernetes_secret" "sysdig_eve" {
   count = var.sysdig_snyk_integration ? 1 : 0
 }
 
-resource "kubernetes_secret" "sysdig_eve" {
+resource "kubernetes_secret" "sysdig_eve_for_snyk" {
   metadata {
     name      = var.sysdig_eve_secret_name
     namespace = kubernetes_namespace.snyk_monitor_namespace.0.id
   }
   data = data.kubernetes_secret.sysdig_eve.0.data
   type = data.kubernetes_secret.sysdig_eve.0.type
+
+  depends_on = [helm_release.sysdig_agent]
 
   count = var.sysdig_snyk_integration ? 1 : 0
 }
