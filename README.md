@@ -22,11 +22,9 @@ There are three ways to deploy this in your OCI infrastructure
 4. Go to **Stack Page > Terraform Actions > Apply** to deploy the infrastructure.
 5. If no longer need the infrastructure, run **Stack Page > Terraform Actions > Destroy**
 
-### Deploy using Terraform CLI
-This quickstart...
+### Using Terraform Scripts
 
-### Upload the module to the Resource Manager
-This quickstart...
+You can use Terraform scripts to apply. If you are using Terraform (locally or via CloudShell), you need to copy the file `terraform.tfvars.example` to `terraform.tfvars` and populate the necessary variables.
 
 ## Start using Sysdig + OKE
 This quickstart...
