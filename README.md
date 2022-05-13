@@ -27,7 +27,27 @@ There are three ways to deploy this in your OCI infrastructure
 
 ### Using Terraform Scripts
 
-You can use Terraform scripts to apply. If you are using Terraform (locally or via CloudShell), you need to copy the file `terraform.tfvars.example` to `terraform.tfvars` and populate the necessary variables.
+Using Terraform (locally or via CloudShell), copy the file `terraform.tfvars.example` to `terraform.tfvars` and configure the variables. Make sure you have the OCI CLI installed and configured, then go ahead with terraform init, plan and apply.
+
+Basic configuration example
+````
+```
+# OCI authentication
+tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaahpra2di6l4levg7gtrb7w25xplkrba3dkclhcff48vofxuvv36pd"
+
+# Deployment compartment
+compartment_ocid = "ocid1.compartment.oc1..aaaaaaaatd5ktvvwe1r4mybei7nfqvcwfdsepggun4kvojgeh5mbibryy22tq"
+
+# region
+region = "us-sanjose-1"
+
+# Sysdig
+sysdig_access_key = "3e43321c-45ee-423d-b243-fab4d40cc87a"
+sysdig_settings_collector = "ingest-us2.app.sysdig.com" # us-west
+sysdig_settings_collector_port = "6443"
+sysdig_node_analyzer_api_endpoint = "us2.app.sysdig.com" # us-west
+```
+````
 
 ## Start using Sysdig + OKE
 This quickstart...
