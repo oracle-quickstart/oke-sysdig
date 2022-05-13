@@ -31,7 +31,6 @@ Using Terraform (locally or via CloudShell), copy the file `terraform.tfvars.exa
 
 Basic configuration example
 ````
-```
 # OCI authentication
 tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaahpra2di6l4levg7gtrb7w25xplkrba3dkclhcff48vofxuvv36pd"
 
@@ -46,7 +45,6 @@ sysdig_access_key = "3e43321c-45ee-423d-b243-fab4d40cc87a"
 sysdig_settings_collector = "ingest-us2.app.sysdig.com" # us-west
 sysdig_settings_collector_port = "6443"
 sysdig_node_analyzer_api_endpoint = "us2.app.sysdig.com" # us-west
-```
 ````
 
 ## Start using Sysdig + OKE
