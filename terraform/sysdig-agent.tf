@@ -9,15 +9,17 @@ resource "kubernetes_namespace" "sysdig_agent_namespace" {
   }
 
   depends_on = [data.oci_containerengine_cluster_kube_config.oke]
+
+  count = local.install_sysdig ? 1 : 0
 }
 
 # Helm Charts
 ## https://github.com/sysdiglabs/charts/tree/master/charts/agent
 resource "helm_release" "sysdig_agent" {
   name       = "sysdig-agent"
-  repository = local.helm_repository.sysdig_charts
+  repository = local.sysdig_helm_repository.sysdig_charts
   chart      = "sysdig"
-  namespace  = kubernetes_namespace.sysdig_agent_namespace.id
+  namespace  = kubernetes_namespace.sysdig_agent_namespace.0.id
   wait       = false
 
   set {
@@ -44,11 +46,16 @@ resource "helm_release" "sysdig_agent" {
     name  = "ebpf.enabled"
     value = true
   }
+
+  count = local.install_sysdig ? 1 : 0
 }
 
 locals {
   # Helm repos
-  helm_repository = {
+  sysdig_helm_repository = {
     sysdig_charts = "https://charts.sysdig.com"
   }
+
+  # Sysdig Agent
+  install_sysdig = true
 }
