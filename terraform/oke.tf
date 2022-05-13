@@ -89,7 +89,8 @@ resource "oci_identity_compartment" "oke_compartment" {
   count = var.create_new_compartment_for_oke ? 1 : 0
 }
 locals {
-  oke_compartment_ocid = var.create_new_compartment_for_oke ? oci_identity_compartment.oke_compartment.0.id : var.compartment_ocid
+  # oke_compartment_ocid = var.create_new_compartment_for_oke ? oci_identity_compartment.oke_compartment.0.id : var.compartment_ocid
+  oke_compartment_ocid = var.create_new_oke_cluster ? (var.create_new_compartment_for_oke ? oci_identity_compartment.oke_compartment.0.id : var.compartment_ocid) : var.existent_oke_cluster_compartment_ocid
 }
 
 # Local kubeconfig for when using Terraform locally. Not used by Oracle Resource Manager
@@ -108,6 +109,8 @@ resource "tls_private_key" "oke_worker_node_ssh_key" {
 locals {
   cluster_k8s_latest_version   = reverse(sort(data.oci_containerengine_cluster_option.oke.kubernetes_versions))[0]
   node_pool_k8s_latest_version = reverse(sort(data.oci_containerengine_node_pool_option.oke.kubernetes_versions))[0]
+  deployed_k8s_version = var.create_new_oke_cluster ? (var.k8s_version == "Latest") ? local.cluster_k8s_latest_version : var.k8s_version :[
+    for x in data.oci_containerengine_clusters.oke.clusters : x.kubernetes_version if x.id == var.existent_oke_cluster_id][0]
 }
 
 # Checks if is using Flexible Compute Shapes

@@ -1,0 +1,618 @@
+# Copyright (c) 2022 Oracle and/or its affiliates. All rights reserved.
+# Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
+# 
+
+title: "Sysdig Secure for OKE"
+description: "Sysdig Secure: Unified security and compliance for containers, Kubernetes and cloud"
+informationalText: "This stack deploys Sysdig Secure and Sysdig Container on an existent OKE Cluster (optionally the stack allows create a new cluster before deploy)."
+schemaVersion: 1.1.0
+version: "20190304"
+
+logoUrl: data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDIzMC4zODIgODIuNzk4MiI+CiAgPGRlZnMvPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuZjA0Y2E5MDYtMWU2OS00ZjI3LTg2MjEtYTdhYjA4NTFjYTExe2ZpbGw6IzU1NTY1Yn0uZTMzMGI4MzQtMTYxYi00ODdjLWJiMTMtOGJjYTU2MWU2NmRle2ZpbGw6IzAwYWJjN30KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIGlkPSJlZjM0ZTc5OC01MThmLTQzODgtYWM3OS04ZTQ4MWZjYjMzMWYiIGRhdGEtbmFtZT0iTGF5ZXIgMSI+CiAgICA8cGF0aCBkPSJNOTguMzU4IDY1LjczODhhOC4wOTQ4IDguMDk0OCAwIDAxLTMuMDg3NCA2Ljg1NTEgMTIuMTMxNSAxMi4xMzE1IDAgMDEtNy42NDA1IDIuMTk3OSAxOC45ODc3IDE4Ljk4NzcgMCAwMS0xMi4wMzU3LTQuMjM4OGwzLjQwMTMtNS4yMzMycTQuNjA0NSAzLjM0OTYgOC44NDM5IDMuMzQ5MiAzLjM0ODQgMCAzLjM0OTEtMi4wOTMxdi0uMTA0OHEwLTEuMTUwMS0xLjcyNzEtMS45MzYyLS42Mjc4LS4yNjA4LTQuMDgxNS0xLjMwODItOC4zNzMyLTIuNDU5LTguMzcyOC04LjQyNXYtLjEwNDdhOC4wNTE5IDguMDUxOSAwIDAxMy4wMzUtNi41OTM5IDExLjA2NSAxMS4wNjUgMCAwMTcuMjIxNC0yLjMwMjZBMTguMzU4NyAxOC4zNTg3IDAgMDE5Ny43MyA0OS4wNDUzbC0zLjAzNTMgNS40OTQ0cS00LjQ0ODYtMi42MTU2LTcuNTg4LTIuNjE2NC0yLjkzMSAwLTIuOTMwNSAxLjkzNjJ2LjEwNDhxMCAxLjA0NzUgMS43MjcxIDEuODg0LjY3OTUuMzEzNiAzLjk3NzIgMS40NjVhMjAuMjYwNiAyMC4yNjA2IDAgMDE1LjcwMzggMi43MjEyIDYuODQzNCA2Ljg0MzQgMCAwMTIuNzczOCA1LjU5OTV6TTExNy43MDA2IDc0Ljk0ODdxLTEuNjIyNSA0LjM0MzEtMy42MTA3IDYuMDcwNmE4LjM2MTUgOC4zNjE1IDAgMDEtNS41OTkyIDEuNzc5IDEzLjcyMTMgMTMuNzIxMyAwIDAxLTcuMDY0Ni0xLjkzNjNsMi42NjktNS43NTZhNi42OTY0IDYuNjk2NCAwIDAwMy40MDEzIDEuMDk4NyAyLjkxOSAyLjkxOSAwIDAwMi43NzM2LTEuODMxNUw5OS4yODA1IDQ2LjIxOTVoOC40MjUzbDYuMzg0IDE5LjEwMDMgNi4xMjI5LTE5LjEwMDNoOC4yNjh6TTE1MC44ODk0IDY1LjczODhhOC4wOTQ4IDguMDk0OCAwIDAxLTMuMDg3NCA2Ljg1NTEgMTIuMTMxNSAxMi4xMzE1IDAgMDEtNy42NDA1IDIuMTk3OSAxOC45ODc3IDE4Ljk4NzcgMCAwMS0xMi4wMzU4LTQuMjM4OGwzLjQwMTMtNS4yMzMycTQuNjA0NiAzLjM0OTYgOC44NDQgMy4zNDkyIDMuMzQ4MyAwIDMuMzQ5LTIuMDkzMXYtLjEwNDhxMC0xLjE1MDEtMS43MjctMS45MzYyLS42Mjc5LS4yNjA4LTQuMDgxNS0xLjMwODItOC4zNzMyLTIuNDU5LTguMzcyOC04LjQyNXYtLjEwNDdhOC4wNTE5IDguMDUxOSAwIDAxMy4wMzQ5LTYuNTkzOSAxMS4wNjUgMTEuMDY1IDAgMDE3LjIyMTUtMi4zMDI2IDE4LjM1ODcgMTguMzU4NyAwIDAxMTAuNDY2MyAzLjI0NDhsLTMuMDM1MyA1LjQ5NDRxLTQuNDQ4Ni0yLjYxNTYtNy41ODc5LTIuNjE2NC0yLjkzMSAwLTIuOTMwNiAxLjkzNjJ2LjEwNDhxMCAxLjA0NzUgMS43MjcyIDEuODg0LjY3OTQuMzEzNiAzLjk3NyAxLjQ2NWEyMC4yNjA2IDIwLjI2MDYgMCAwMTUuNzA0IDIuNzIxMiA2Ljg0MzQgNi44NDM0IDAgMDEyLjc3MzYgNS41OTk1ek0xNzUuMTYwMyA3NC4yNjg1VjcxLjgwOWExMi42NDk3IDEyLjY0OTcgMCAwMS04LjczOTIgMi45ODI4IDExLjg1MzcgMTEuODUzNyAwIDAxLTguODQzOS0zLjcxNTVxLTMuOTI0Ni00LjA4MTctMy45MjQ2LTEwLjc4MDJ2LS4xMDQ3cTAtNi42OTc5IDMuODcyNC0xMC43Nzk3YTExLjkxNjEgMTEuOTE2MSAwIDAxOC44OTYxLTMuNzE1NSAxNC4yMDcgMTQuMjA3IDAgMDE4LjczOTIgMi42MTY0VjM2LjA2NzNoNy45NTQzdjM4LjIwMTJ6bS4xMDQ3LTE0LjA3N2E4LjAyOTggOC4wMjk4IDAgMDAtMS45ODgzLTUuNTk5MiA2LjIyMjkgNi4yMjI5IDAgMDAtNC44MTQ2LTIuMTQ1NyA2LjI5MTQgNi4yOTE0IDAgMDAtNC44MTQzIDIuMDkzMSA3Ljk3NjggNy45NzY4IDAgMDAtMi4wNDA5IDUuNjUxN3YuMTA0N2E3LjkwNDIgNy45MDQyIDAgMDAyLjA0MSA1LjU5OTYgNi40NzQgNi40NzQgMCAwMDkuNjI4OCAwIDguMDI5NSA4LjAyOTUgMCAwMDEuOTg4My01LjU5OTV6TTE4Ny45MjkyIDQzLjEzMnYtNy4wNjQ3aDguMzcyOHY3LjA2NDd6bS4yMDkgMzEuMTM2NXYtMjguMDQ5aDcuOTU0M3YyOC4wNDl6TTIzMC4zODIgNjcuOTM2NnEwIDcuNzk4MS0zLjkyNDYgMTEuMzU1Ni0zLjc2OCAzLjQ1MzgtMTEuNzIyMyAzLjQ1MzhhMjYuMTMyNyAyNi4xMzI3IDAgMDEtMTIuNDAyMS0yLjkzMDVsMi43MjExLTYuNDg4OGExOS4wNDk2IDE5LjA0OTYgMCAwMDkuNDcyIDIuNTY0MnE4LjAwNjIgMCA4LjAwNjQtNi41OTR2LS4zMTM3YTE0LjI5ODEgMTQuMjk4MSAwIDAxLTkuMTU3NyAyLjk4MjcgMTEuOTg1IDExLjk4NSAwIDAxLTguNjg3LTMuNDAxMyAxMi44ODkgMTIuODg5IDAgMDEtMy43Njc4LTkuNjgxNHYtLjEwNDdhMTIuNzk1MyAxMi43OTUzIDAgMDEzLjgyMDItOS42ODEgMTEuOTIxIDExLjkyMSAwIDAxOC42MzQ1LTMuNDAxMyAxNS42MjkgMTUuNjI5IDAgMDE5LjA1MyAyLjYxNjR2LTIuMDkzMWg3Ljk1NDN6bS03Ljg0OTUtOS4xNTgxYTYuMDU3IDYuMDU3IDAgMDAtMS45ODg0LTQuNjU3MyA3LjM4MiA3LjM4MiAwIDAwLTkuNzMzNiAwIDYuMTMyNCA2LjEzMjQgMCAwMC0xLjkzNjIgNC42NTczdi4xMDQ3YTYuMTkyNSA2LjE5MjUgMCAwMDEuOTM2MiA0LjcwOTkgNi45MTMgNi45MTMgMCAwMDQuODY2OCAxLjc3OTMgNi44MDMxIDYuODAzMSAwIDAwNC44NjY4LTEuODMxNSA2LjA1NjIgNi4wNTYyIDAgMDAxLjk4ODQtNC42NTc3eiIgY2xhc3M9ImYwNGNhOTA2LTFlNjktNGYyNy04NjIxLWE3YWIwODUxY2ExMSIvPgogICAgPGc+CiAgICAgIDxwYXRoIGQ9Ik00Mi4yMzY4IDc0LjEzNjRBMTkuOTAyNSAxOS45MDI1IDAgMDEyNC41NzUzIDYzLjgyNWMtMS41NTUtMi42OTMyLTUuNTY0My05LjgzMy01Ljc2NjItMTAuMTk1M2EyLjcwMjIgMi43MDIyIDAgMDE0LjcyMTMtMi42M2MuMDQ5Mi4wODg0IDQuMTkxIDcuNDY1NSA1LjcyNTQgMTAuMTIzIDMuODA1NSA2LjU5MTYgMTAuNzc1IDkuMTA5NiAxOC42NDQgNi43MzFhMi43MDIzIDIuNzAyMyAwIDAxMS41NjI2IDUuMTczOCAyNC45OTY1IDI0Ljk5NjUgMCAwMS03LjIyNTYgMS4xMDl6IiBjbGFzcz0iZTMzMGI4MzQtMTYxYi00ODdjLWJiMTMtOGJjYTU2MWU2NmRlIi8+CiAgICAgIDxwYXRoIGQ9Ik00Mi44MjI5IDgyLjcwODRjLTEwLjMwMiAwLTE5LjkxNzUtNC44MjA3LTI0Ljc1NTctMTMuMjAwOUw3LjAwOSA1MC4zNTQ1YTIuNzAyIDIuNzAyIDAgMDEuOTg4OS0zLjY5MTFsNy41MzIyLTQuMzQ4OGEyLjcwMjIgMi43MDIyIDAgMTEyLjcwMjMgNC42ODAybC01LjE5MjEgMi45OTc1IDkuNzA3IDE2LjgxMjljNS4yNjIxIDkuMTE0MiAxNy43NzMxIDEyLjkxNDcgMjkuMjU2MyA4Ljk1MTUgOS4xNzMzLTcuOTYyNiAxMi4xMzgtMjAuNjk4NCA2Ljg3NjMtMjkuODEyNmwtOS4yOTIxLTE2LjA5NGEyLjcwMjIgMi43MDIyIDAgMTE0LjY4MDEtMi43MDIzbDkuMjkyMSAxNi4wOTRjNi42MjM3IDExLjQ3MjUgMi45OTMgMjcuMzYzOS04LjQ0NDkgMzYuOTY0MmEyLjY5NzcgMi42OTc3IDAgMDEtLjgxMzcuNDY5NyAzMy41OTAzIDMzLjU5MDMgMCAwMS0xMS40Nzg2IDIuMDMyN3ptMTAuNTU0OS00LjU3MnoiIGNsYXNzPSJlMzMwYjgzNC0xNjFiLTQ4N2MtYmIxMy04YmNhNTYxZTY2ZGUiLz4KICAgICAgPHBhdGggZD0iTTQyLjAxMTEgNjUuMzc0NGMtNC4yNjggMC03Ljg4NTctMi44NDE4LTkuNzIzLTYuMDI0TC4zNjI3IDQuMDUzNmEyLjcwMjIgMi43MDIyIDAgMDE0LjY4MDEtMi43MDIzTDM2Ljk2ODMgNTYuNjQ4Yy44NzA4IDEuNTA3NyAzLjMzOTMgNC4wOTUgNi40NDUgMy4wOTI4YTIuNzAyMyAyLjcwMjMgMCAwMTEuNjU3OCA1LjE0NDEgOS45NDQyIDkuOTQ0MiAwIDAxLTMuMDYuNDg5NXpNMzUuMDk4IDM2LjgzOThhMi43MDI4IDIuNzAyOCAwIDAxLTIuMzQwMi0xLjM1MTFsLTguOTU4My0xNS41MTdhMi43MDIyIDIuNzAyMiAwIDAxNC42ODAxLTIuNzAyM2w3LjYwNzYgMTMuMTc2OSA0LjgzODYtMi43OTM4YTIuNzAyMiAyLjcwMjIgMCAwMTIuNzAyNCA0LjY4MDFsLTcuMTc5MSA0LjE0NWEyLjcwMzMgMi43MDMzIDAgMDEtMS4zNTEyLjM2MjJ6IiBjbGFzcz0iZTMzMGI4MzQtMTYxYi00ODdjLWJiMTMtOGJjYTU2MWU2NmRlIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K
+
+source:
+  type: quickstart
+
+locale: "en"
+variableGroups:
+  - title: "Basic Hidden"
+    variables:
+    - compartment_ocid
+    - tenancy_ocid
+    - region
+    visible: false
+
+  - title: "Sysdig Configuration"
+    variables:
+    - sysdig_access_key
+    - sysdig_settings_collector
+    - sysdig_settings_collector_port
+    - sysdig_node_analyzer_api_endpoint
+
+  - title: "Sysdig <> Snyk Integration"
+    variables:
+    - sysdig_snyk_integration
+    - snyk_integration_id   
+    - snyk_deploy_goof_sample
+    - snyk_private_registry
+    - snyk_private_registry_url
+    - snyk_private_registry_username
+    - snyk_private_registry_password
+
+  - title: "Snyk Hidden Variables"
+    variables:
+    - snyk_sysdig_integration
+    - sysdig_eve_secret_name
+    - sysdig_agent_namespace
+    visible: false
+
+  - title: "OKE Cluster Configuration"
+    variables:
+    - create_new_oke_cluster
+    - existent_oke_cluster_compartment_ocid
+    - existent_oke_cluster_id
+    - show_advanced
+    - app_name
+    - k8s_version
+    - cluster_workers_visibility
+    - cluster_endpoint_visibility
+    - create_new_compartment_for_oke
+
+  - title: "OKE Worker Nodes"
+    variables:
+    - cluster_autoscaler_enabled
+    - num_pool_workers
+    - cluster_autoscaler_min_nodes
+    - cluster_autoscaler_max_nodes
+    - node_pool_shape
+    - node_pool_node_shape_config_ocpus
+    - node_pool_node_shape_config_memory_in_gbs
+    - generate_public_ssh_key
+    - public_ssh_key
+    - image_operating_system
+    - image_operating_system_version
+    - node_pool_name
+
+  - title: "Dynamic Group and Policies"
+    variables:
+    - create_dynamic_group_for_nodes_in_compartment
+    - existent_dynamic_group_for_nodes_in_compartment
+    - create_compartment_policies
+    - create_tenancy_policies
+
+  - title: "Encryption using OCI Vault (KMS)"
+    variables:
+    - use_encryption_from_oci_vault
+    - create_new_encryption_key
+    - existent_encryption_key_id
+    - create_vault_policies_for_group
+    - user_admin_group_for_vault_policy
+
+  - title: "Extras Hidden"
+    variables:
+      - user_ocid
+      - fingerprint
+      - private_key_path
+      - network_cidrs
+      - cluster_options_admission_controller_options_is_pod_security_policy_enabled
+      - cluster_options_add_ons_is_kubernetes_dashboard_enabled
+      - node_pool_boot_volume_size_in_gbs
+      - oke_compartment_description
+      - create_oci_service_user
+      - existent_oke_nodepool_id_for_autoscaler
+    visible: false
+
+variables:
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    description: "The compartment in which to create compute instance(s)"
+    required: true
+
+  sysdig_access_key:
+    type: string
+    title: "Sysdig Agent Access Key"
+    required: true
+
+  sysdig_settings_collector:
+    type: string
+    title: "Sysdig Agent Collector URL"
+    required: true
+
+  sysdig_settings_collector_port:
+    type: string
+    title: "Sysdig Agent Collector Port"
+    required: true
+
+  sysdig_node_analyzer_api_endpoint:
+    type: string
+    title: "Sysdig Node Analyzer API endpoint"
+    required: true
+
+  sysdig_snyk_integration:
+    type: boolean
+    title: "Enable Snyk integration to Sysdig"
+    required: true
+    visible: yes
+
+  snyk_integration_id:
+    type: string
+    title: "Snyk Integration id"
+    required: true
+    visible:
+      and:
+        - sysdig_snyk_integration
+
+  snyk_deploy_goof_sample:
+    type: boolean
+    title: "Deploy Snyk's Goof Sample"
+    required: true
+    visible:
+      and:
+        - sysdig_snyk_integration
+
+  snyk_private_registry:
+    type: boolean
+    title: "Configure Private Container Registry to be scanned by Snyk"
+    required: true
+    visible:
+      and:
+        - sysdig_snyk_integration
+
+  snyk_private_registry_url:
+    type: string
+    title: "Container Private Registry URL"
+    required: true
+    visible:
+      and:
+        - sysdig_snyk_integration
+        - snyk_private_registry
+
+  snyk_private_registry_username:
+    type: string
+    title: "Container Private Registry Username"
+    required: true
+    visible:
+      and:
+        - sysdig_snyk_integration
+        - snyk_private_registry
+
+  snyk_private_registry_password:
+    type: string
+    title: "Container Private Registry Password or Auth Token"
+    required: true
+    visible:
+      and:
+        - sysdig_snyk_integration
+        - snyk_private_registry
+
+  app_name:
+    type: string
+    title: "Cluster Name Prefix"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+
+  show_advanced:
+    type: boolean
+    title: "Show advanced options?"
+    description: "Shows advanced options, allowing enable customer-managed encryption keys, select your ssh key, select/unselect cluster utilities, do not create policies, and other advanced options"
+    visible:
+      and:
+        - create_new_oke_cluster
+
+  create_oci_service_user:
+    type: boolean
+    title: "Creates OCI Service User"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  # OKE Cluster
+  create_new_oke_cluster:
+    type: boolean
+    title: "Create new OKE Cluster"
+
+  existent_oke_cluster_compartment_ocid:
+    type: oci:identity:compartment:id
+    title: "Existent OKE Cluster Compartment"
+    description: "The compartment where you find the existent OKE Cluster"
+    default: compartment_ocid
+    required: true
+    visible:
+      not:
+        - create_new_oke_cluster
+
+  existent_oke_cluster_id:
+    type: oci:container:cluster:id
+    title: "Existent OKE Cluster"
+    required: true
+    dependsOn:
+      compartmentId: existent_oke_cluster_compartment_ocid
+    visible:
+      not:
+        - create_new_oke_cluster
+
+  k8s_version:
+    type: enum
+    enum: # Necessary hardcoded supported versions, as ORM does not retrieve the versions from OKE.
+    - "Latest"
+    - "v1.22.5"
+    - "v1.21.5"
+    - "v1.20.11"
+    - "v1.19.15"
+    title: "Kubernetes Version"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  cluster_workers_visibility:
+    type: enum
+    enum:
+    - "Private"
+    - "Public"
+    title: "Choose Worker Nodes visibility type"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+
+  cluster_endpoint_visibility:
+    type: enum
+    enum:
+    # - "Private"
+    - "Public"
+    title: "Choose Kubernetes API Endpoint visibility type"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+
+  create_new_compartment_for_oke:
+    type: boolean
+    title: "Create new Compartment"
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  cluster_autoscaler_enabled:
+    type: boolean
+    title: "Enable Cluster Autoscaler" 
+    visible:
+      and:
+        - create_new_oke_cluster 
+
+  num_pool_workers:
+    type: integer
+    title: "Number of Worker Nodes"
+    minimum: 1
+    maximum: 1000
+    required: true
+    visible:
+      and:
+        - and:
+          - create_new_oke_cluster
+        - not:
+          - cluster_autoscaler_enabled
+
+  cluster_autoscaler_min_nodes:
+    type: integer
+    title: "Autoscaler: Minimum number of nodes"
+    minimum: 1
+    maximum: 1000
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - cluster_autoscaler_enabled
+
+  cluster_autoscaler_max_nodes:
+    type: integer
+    title: "Autoscaler: Maximum number of nodes"
+    minimum: 1
+    maximum: 1000
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - cluster_autoscaler_enabled
+
+  existent_oke_nodepool_id_for_autoscaler:
+    type: string
+    title: "OKE Nodepool id"
+    required: true
+    visible:
+      and:
+        - and:
+          - cluster_autoscaler_enabled
+        - not:
+          - create_new_oke_cluster
+
+  node_pool_shape:
+    type: oci:core:instanceshape:name
+    title: "Select a shape for the Worker Nodes instances"
+    required: true
+    dependsOn:
+      compartmentId: compartment_ocid
+    visible:
+      and:
+        - create_new_oke_cluster
+
+  node_pool_node_shape_config_ocpus:
+    type: integer
+    minimum: 1
+    maximum: 64
+    title: "Number of OCPUs"
+    visible:
+      and:
+        - and:
+          - create_new_oke_cluster
+        - or:
+          - eq:
+            - node_pool_shape 
+            - "VM.Standard.E3.Flex"
+          - eq:
+            - node_pool_shape 
+            - "VM.Standard.E4.Flex"
+          - eq:
+            - node_pool_shape 
+            - "VM.Standard.A1.Flex"
+
+  node_pool_node_shape_config_memory_in_gbs:
+    type: integer
+    minimum: 1
+    maximum: 1024
+    title: "Amount of memory (GB)"
+    visible:
+      and:
+        - and:
+          - create_new_oke_cluster
+        - or:
+          - eq:
+            - node_pool_shape 
+            - "VM.Standard.E3.Flex"
+          - eq:
+            - node_pool_shape 
+            - "VM.Standard.E4.Flex"
+          - eq:
+            - node_pool_shape 
+            - "VM.Standard.A1.Flex"
+
+  node_pool_name:
+    type: string
+    title: "Node Pool Name"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  cluster_options_add_ons_is_kubernetes_dashboard_enabled:
+    type: boolean
+    title: "Kubernetes Dashboard Enabled"
+    visible: false
+
+  generate_public_ssh_key:
+    type: boolean
+    title: "Auto generate public ssh key?"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  public_ssh_key:
+    type: oci:core:ssh:publickey
+    title: "Import your own SSH public key"
+    additionalProps:
+      allowMultiple: true
+    required: false
+    pattern: "((^(ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)(,((ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)*$"
+    visible:
+      and:
+        - and:
+          - create_new_oke_cluster
+          - show_advanced
+        - not:
+          - generate_public_ssh_key
+
+  image_operating_system:
+    type: enum
+    title: "Image OS"
+    enum:
+      - "Oracle Linux"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  image_operating_system_version:
+    type: string
+    title: "Image OS Version"
+    required: true
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  # Dynamic Groups and Policies for Instance Principals and Autoscaler
+  create_dynamic_group_for_nodes_in_compartment:
+    type: boolean
+    title: "Create Dynamic Group for Worker Nodes in the Compartment"
+    required: true
+    visible:
+      and:
+        - show_advanced
+
+  existent_dynamic_group_for_nodes_in_compartment:
+    type: string
+    title: "Existent Dynamic Group"
+    required: true
+    visible:
+      and:
+        - and:
+          - show_advanced
+        - or:
+          - create_compartment_policies
+          - create_tenancy_policies
+        - not:
+          - create_dynamic_group_for_nodes_in_compartment
+        
+  create_compartment_policies:
+    type: boolean
+    title: "Create Compartment Policies"
+    required: true
+    visible:
+      and:
+        - show_advanced
+
+  create_tenancy_policies:
+    type: boolean
+    title: "Create Tenancy Policies"
+    required: true
+    visible:
+      and:
+        - show_advanced
+
+  # Encryption options
+  use_encryption_from_oci_vault:
+    type: boolean
+    title: "Encrypt using Customer-Managed Keys instead of Oracle Managed Encryption"
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+
+  create_new_encryption_key:
+    type: boolean
+    title: "Create new Vault and Key"
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+        - use_encryption_from_oci_vault
+
+  existent_encryption_key_id:
+    type: string
+    title: "Existent Encryption Key OCID"
+    required: true
+    visible:
+      and:
+        - and:
+          - create_new_oke_cluster
+          - show_advanced
+          - use_encryption_from_oci_vault
+        - not:
+          - create_new_encryption_key
+
+  create_vault_policies_for_group:
+    type: boolean
+    title: "Create policies for the user group to manage vault and keys"
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+        - use_encryption_from_oci_vault
+        - create_new_encryption_key
+
+  user_admin_group_for_vault_policy:
+    type: string
+    title: "Specify your group to include the policy"
+    visible:
+      and:
+        - create_new_oke_cluster
+        - show_advanced
+        - use_encryption_from_oci_vault
+        - create_new_encryption_key
+        - create_vault_policies_for_group
+
+outputGroups:
+  - title: Deployment Info
+    outputs:
+      - deploy_id
+      - deployed_to_region
+      - stack_version
+
+  - title: Kubernetes Cluster Info
+    outputs:
+      - deployed_oke_kubernetes_version
+      - generated_private_key_pem
+
+  - title: Snyk Goof App Notes
+    outputs:
+      - snyk_goof_sample_access
+      - snyk_goof_sample_mongodb_access
+
+  - title: Dev Notes
+    outputs:
+      - dev
+      - comments
+
+outputs:
+
+  deploy_id:
+    type: string
+    title: "Deployment Id"
+    visible: true
+
+  deployed_to_region:
+    type: string
+    title: "Deployed using Region"
+    visible: true
+
+  deployed_oke_kubernetes_version:
+    type: string
+    title: "OKE Kubernetes version deployed"
+    visible: true
+
+  stack_version:
+    type: string
+    title: Stack Version
+    displayText: Stack Version deployed
+    visible: true
+
+  generated_private_key_pem:
+    type: string
+    title: Generated Private Key
+    displayText: Generated Private Key
+
+  comments:
+    type: string
+    title: Comments
+    displayText: Comments
+    visible: true
+
+  dev:
+    type: string
+    title: dev
+    displayText: dev note from Oracle Developers
+    visible: true
+
+  snyk_goof_sample_access:
+    type: string
+    title: Kubectl command to check goof sample
+    displayText: Kubectl command to check goof sample (http://localhost:8088)
+    visible:
+      and:
+        - snyk_deploy_goof_sample
+
+  snyk_goof_sample_mongodb_access:
+    type: string
+    title: Kubectl command to check goof mongoDb
+    displayText: Kubectl command to check goof mongoDb
+    visible:
+      and:
+        - snyk_deploy_goof_sample
+
+  kubeconfig_for_kubectl:
+    type: string
+    title: kubeconfig
+    displayText: kubeconfig for local kubectl run. Not used by ORM
+    visible: false

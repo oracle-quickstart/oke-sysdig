@@ -21,3 +21,8 @@ variable "sysdig_node_analyzer_api_endpoint" {
   default     = ""
   description = "Sysdig secure API endpoint, without protocol (i.e. secure.sysdig.com)"
 }
+
+variable "sysdig_snyk_integration" {
+  default     = false
+  description = "Enrich security insights and automated remediation with Snyk and seamlessly integrated to more easily find, prioritize, and fix vulnerabilities in containers and open source dependencies."
+}
