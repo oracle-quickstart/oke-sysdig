@@ -48,7 +48,8 @@ sysdig_node_analyzer_api_endpoint = "us2.app.sysdig.com" # us-west
 ````
 
 ## Start using Sysdig + OKE
-This quickstart...
+https://docs.sysdig.com/en/docs/sysdig-secure/getting-started-with-sysdig-secure/
+https://learn.sysdig.com/
 
 [magic_button]: https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg
 [magic_sysdig_stack]: https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/oracle-quickstart/oke-sysdig/releases/latest/download/oke-sysdig-stack.zip
