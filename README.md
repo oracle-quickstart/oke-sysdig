@@ -17,7 +17,7 @@ There are three ways to deploy this in your OCI infrastructure
 
 ### Using the magic button
 
-![](./images/magic-button-screenshot.png)
+![](./images/magic-button-screenshot-1.png)
 
 1. Click the button [![Deploy to Oracle Cloud][magic_button]][magic_sysdig_stack] to go to the OCI deployment wizard.
 2. Provide configuration parameters and credentials explained in the requirements section above.
