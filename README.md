@@ -6,7 +6,7 @@ Terraform module that deploys the Sysdig Secure Agents in Oracle Kubernetes Engi
 - An OCI account, the Oracle CLI (Resource Manager) and Terraform installed and configured. Find the step by step instructions in hte [Oracle QuickStart Prerequisites](https://github.com/oracle-quickstart/oci-prerequisites).
 - A [Sysdig account](https://sysdig.com/company/start-free). Configuration parameters
   - Sysdig Access Key: From Sysdig panel go to Settings > Agent installation and copy the alphanumeric string.
-  - [Agent Collector url, port and Node Image Analyzer endpoint](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges). Make sure to choose the right ones matching your SaaS region.
+  - [Agent Collector url, port and Sysdig Secure endpoint](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges). Make sure to choose the right ones matching your SaaS region.
 - If the Snyk integration is enabled, you need the Snyk monitor configured and running on the same cluster.
 
 ## Usage options
@@ -44,7 +44,7 @@ region = "us-sanjose-1"
 sysdig_access_key = "3e43321c-45ee-423d-b243-fab4d40cc87a"
 sysdig_settings_collector = "ingest-us2.app.sysdig.com" # us-west
 sysdig_settings_collector_port = "6443"
-sysdig_node_analyzer_api_endpoint = "us2.app.sysdig.com" # us-west
+sysdig_secure_api_endpoint = "us2.app.sysdig.com" # us-west
 ````
 
 ## Start using Sysdig + OKE
