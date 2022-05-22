@@ -27,7 +27,7 @@ variableGroups:
     - sysdig_access_key
     - sysdig_settings_collector
     - sysdig_settings_collector_port
-    - sysdig_node_analyzer_api_endpoint
+    - sysdig_secure_api_endpoint
 
   - title: "Sysdig <> Snyk Integration"
     variables:
@@ -124,9 +124,9 @@ variables:
     title: "Sysdig Agent Collector Port"
     required: true
 
-  sysdig_node_analyzer_api_endpoint:
+  sysdig_secure_api_endpoint:
     type: string
-    title: "Sysdig Node Analyzer API endpoint"
+    title: "Sysdig Secure Endpoint for node analyzer"
     required: true
 
   sysdig_snyk_integration:
