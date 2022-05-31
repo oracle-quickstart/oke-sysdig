@@ -46,6 +46,18 @@ resource "helm_release" "sysdig_agent" {
     name  = "ebpf.enabled"
     value = true
   }
+  set {
+    name  = "nodeAnalyzer.runtimeScanner.deploy"
+    value = true
+  }
+  set {
+    name  = "nodeAnalyzer.runtimeScanner.eveConnector.deploy"
+    value = true
+  }
+  set {
+    name  = "resources.limits.cpu"
+    value = "null"
+  }
 
   count = local.install_sysdig ? 1 : 0
 }
