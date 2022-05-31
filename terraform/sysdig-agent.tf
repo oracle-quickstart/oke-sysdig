@@ -40,7 +40,7 @@ resource "helm_release" "sysdig_agent" {
   }
   set {
     name  = "nodeAnalyzer.apiEndpoint"
-    value = var.sysdig_node_analyzer_api_endpoint
+    value = var.sysdig_secure_api_endpoint
   }
   set {
     name  = "ebpf.enabled"

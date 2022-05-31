@@ -17,7 +17,7 @@ variable "sysdig_settings_collector_port" {
   description = "Sysdig Agent Collector Port"
 }
 
-variable "sysdig_node_analyzer_api_endpoint" {
+variable "sysdig_secure_api_endpoint" {
   default     = ""
   description = "Sysdig secure API endpoint, without protocol (i.e. secure.sysdig.com)"
 }
