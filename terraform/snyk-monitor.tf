@@ -60,12 +60,12 @@ resource "kubernetes_secret" "snyk_monitor" {
 
 locals {
   snyk_dockercfg = var.snyk_private_registry ? {
-      auths = {
-        "${var.snyk_private_registry_url}" = {
-          auth = "${base64encode("${var.snyk_private_registry_username}:${var.snyk_private_registry_password}")}"
-        }
+    auths = {
+      "${var.snyk_private_registry_url}" = {
+        auth = "${base64encode("${var.snyk_private_registry_username}:${var.snyk_private_registry_password}")}"
       }
-    } : {}
+    }
+  } : {}
 }
 
 # resource "kubernetes_secret" "snyk_docker_cfg" {
@@ -75,12 +75,12 @@ locals {
 
 #   data = {
 #     ".dockerconfigjson" = jsonencode({
-    #   auths = {
-    #     "${var.registry_server}" = {
-    #       auth = "${base64encode("${var.registry_username}:${var.registry_password}")}"
-    #     }
-    #   }
-    # })
+#   auths = {
+#     "${var.registry_server}" = {
+#       auth = "${base64encode("${var.registry_username}:${var.registry_password}")}"
+#     }
+#   }
+# })
 #   }
 
 #   type = "kubernetes.io/dockerconfigjson"
