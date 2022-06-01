@@ -17,7 +17,6 @@ locale: "en"
 variableGroups:
   - title: "Basic Hidden"
     variables:
-    - compartment_ocid
     - tenancy_ocid
     - region
     visible: false
@@ -49,7 +48,7 @@ variableGroups:
   - title: "OKE Cluster Configuration"
     variables:
     - create_new_oke_cluster
-    - existent_oke_cluster_compartment_ocid
+    - compartment_ocid
     - existent_oke_cluster_id
     - show_advanced
     - app_name
@@ -103,11 +102,6 @@ variableGroups:
     visible: false
 
 variables:
-  compartment_ocid:
-    type: oci:identity:compartment:id
-    title: "Compartment"
-    description: "The compartment in which to create compute instance(s)"
-    required: true
 
   sysdig_access_key:
     type: string
@@ -216,11 +210,10 @@ variables:
     type: boolean
     title: "Create new OKE Cluster"
 
-  existent_oke_cluster_compartment_ocid:
+  compartment_ocid:
     type: oci:identity:compartment:id
     title: "Existent OKE Cluster Compartment"
     description: "The compartment where you find the existent OKE Cluster"
-    default: compartment_ocid
     required: true
     visible:
       not:
@@ -231,7 +224,7 @@ variables:
     title: "Existent OKE Cluster"
     required: true
     dependsOn:
-      compartmentId: existent_oke_cluster_compartment_ocid
+      compartmentId: compartment_ocid
     visible:
       not:
         - create_new_oke_cluster
