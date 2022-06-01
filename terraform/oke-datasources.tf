@@ -19,7 +19,7 @@ data "oci_containerengine_node_pool_option" "oke" {
   node_pool_option_id = "all"
 }
 data "oci_containerengine_clusters" "oke" {
-    compartment_id = local.oke_compartment_ocid
+  compartment_id = local.oke_compartment_ocid
 }
 
 # Gets a list of Availability Domains
