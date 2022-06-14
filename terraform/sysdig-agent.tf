@@ -59,12 +59,20 @@ resource "helm_release" "sysdig_agent" {
     value = "null"
   }
   set {
+    name  = "sysdig.settings.cri.delay_ms"
+    value = 500
+  }
+  set {
     name  = "sysdig.settings.falcobaseline.debug"
     value = false
   }
   set {
     name  = "sysdig.settings.falcobaseline.debug_metadata"  # to print baseliner workload metadata as info
     value = false
+  }
+  set {
+    name  = "sysdig.settings.falcobaseline.report_interval" # necessary for baseliner to start
+    value = 30000000000
   }
   set {
     name  = "sysdig.settings.falcobaseline.max_drops_buffer_rate_percentage" # necessary for baseliner to start
@@ -74,6 +82,11 @@ resource "helm_release" "sysdig_agent" {
     name  = "sysdig.settings.falcobaseline.max_sampling_ratio" # necessary for baseliner to start
     value = 128
   }
+  set {
+    name  = "sysdig.settings.falcobaseline.randomize_start" # necessary for baseliner to start
+    value = false
+  }
+
 
   count = local.install_sysdig ? 1 : 0
 }
