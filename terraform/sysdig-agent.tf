@@ -20,6 +20,7 @@ resource "helm_release" "sysdig_agent" {
   repository = local.sysdig_helm_repository.sysdig_charts
   chart      = "sysdig"
   namespace  = kubernetes_namespace.sysdig_agent_namespace.0.id
+  version    = "1.14.32" #TEMP until the quickstart is fully reviewed for the new helm charts
   wait       = false
 
   set {
