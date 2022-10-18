@@ -48,6 +48,14 @@ sysdig_secure_api_endpoint = "us2.app.sysdig.com" # us-west
 ````
 
 ## Start using Sysdig + OKE
+
+### OCI VNC egress rules
+Once the OKE cluster is provisioned it is strongly recommended to set up an egress rule allowing port 6443 so that the sysdig-agent can reach Sysdig APIs and Collectors.  
+   
+Read more about VNC security lists: https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/securitylists.htm  
+Sysdig IPs and regions: https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges  
+
+### Documentation & training
 https://docs.sysdig.com/en/docs/sysdig-secure/getting-started-with-sysdig-secure
 
 https://learn.sysdig.com
